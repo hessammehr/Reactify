@@ -8,16 +8,18 @@ For development, we recommend cloning the repository and installing it in develo
 git clone https://github.com/croningp/Reactify
 ```
 
-You can use conda to install dependencies first
-```shell
-conda env create --file Reactify/environment.yml
-conda activate Reactify
-``` 
+Project dependencies can be installed easily using [uv](https://astral.sh/uv/).
 
-To install the Reactify package in development mode:
 ```shell
-pip install -e Reactify
+uv sync
 ```
+
+To interact with the Jupyter notebook
+
+```shell
+uvx --with-editable . jupyter lab
+```
+
 ## Getting started
 The enclosed Jupyter notebook `Reactify.ipynb` is recommended as an example of how to train the *Reactify* model and evaluate its performance. We also provide a command line interface to achieve the same, see below.
 
@@ -39,10 +41,10 @@ You can now launch the training script from anywhere:
 
 ```shell
 # To see the script's full list of command line parameters
-python -m Reactify.training -h
+uv run -m Reactify.training -h
 
 # e.g.
-python -m Reactify.training --leave_out 1018 --no-plot models/reactify_model
+uv run -m Reactify.training --leave_out 1018 --no-plot models/reactify_model
 ```
 
 In addition to the trained model, this script also plots the confusion matrix as well as (optionally) a plot showing the reactivity assignment for each example in the test dataset.
@@ -53,7 +55,7 @@ In addition to the trained model, this script also plots the confusion matrix as
 For quick assigment of reactivity, the script in `inference.py` gives a command-line interface for running inference:
 
 ```shell
-python -m Reactify.inference <path to trained model> <path to reaction spectrum> <path to reactant 1 spectrum> <path to reactant 2 spectrum> ...
+uv run -m Reactify.inference <path to trained model> <path to reaction spectrum> <path to reactant 1 spectrum> <path to reactant 2 spectrum> ...
 ```
 
 The manuscript dataset inlcludes a pre-trained model (under `data/FinderX-pretrained`) that you can use as reference. This model has been trained on the simple chemical (non-photochemical) space only.
